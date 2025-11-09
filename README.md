@@ -52,7 +52,8 @@
 
 ## 🧑‍💻 Автор
 
-Молодницкая мария
+Молодницкая Мария
+
 📧 molodnitskaya.maria@gmail.com
 
 🌐 [GitHub Profile](https://github.com/molodnitskayamaria-afk)
