@@ -30,13 +30,29 @@
    ```bash
    git clone https://github.com/your-username/weather-app.git
    cd weather-app
+   ```
 
+2. **Создайте и активируйте виртуальную среду**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate    # macOS/Linux
+   venv\Scripts\activate       # Windows
+   ```
 
+3. **Установите зависимости проекта**
+   ```bash
+   pip install -r requirements.txt
 
+   ```
+4. **Запустите приложение**
+   ```bash
+   streamlit run app.py
+   ```
 
 
 ## 🧑‍💻 Автор
 
 Молодницкая мария
 📧 molodnitskaya.maria@gmail.com
+
 🌐 [GitHub Profile](https://github.com/molodnitskayamaria-afk)
