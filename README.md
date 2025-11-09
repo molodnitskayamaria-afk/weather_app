@@ -1,7 +1,7 @@
 # 🌦️ Weather App
 
-A simple and interactive **Weather App** built with **Streamlit** and the **OpenWeatherMap API**.  
-This app allows users to check real-time weather information for any city in the world — including temperature, humidity, wind speed, and weather conditions.
+Простое и интерактивное **Weather App**, созданное с помощью **Streamlit** и **OpenWeatherMap API**.
+Это приложение позволяет пользователям получать актуальную информацию о погоде в любом городе мира — включая температуру, влажность, скорость ветра и погодные условия.
 
 ---
 
