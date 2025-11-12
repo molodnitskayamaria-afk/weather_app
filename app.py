@@ -9,7 +9,7 @@ st.set_page_config(page_title="Weather", page_icon="⛅", layout="centered")
 
 # ----------------------- Определение локации по IP -----------------------
 def get_location_from_ip():
-    """Определяем локацию пользователя по IP. Неточно, но работает как разумный дефолт."""
+    """Определяем локацию пользователя по IP. Неточно, но работает как разумный дефолт"""
     try:
         resp = requests.get("https://ipapi.co/json/", timeout=5)
         resp.raise_for_status()
@@ -34,7 +34,7 @@ auto_loc = get_location_from_ip()
 if auto_loc and auto_loc["city"]:
     default_city = f"{auto_loc['city']}, {auto_loc.get('country', '')}".strip().strip(", ")
 else:
-    default_city = "Москва" if lang == "ru" else "Moscow"
+    default_city = 'Moscow'
 
 with st.sidebar:
     st.title("⛅ Погода" if lang == "ru" else "⛅ Weather")
@@ -62,7 +62,7 @@ with st.sidebar:
         value=True,
     )
 
-# Внутреннее представление единиц (для API)
+# Для API задаю единицы измерения температуры
 if lang == "ru":
     temp_system = "Fahrenheit" if units_label == "Фаренгейт" else "Celsius"
 else:
@@ -78,9 +78,10 @@ else:
 
 
 # ----------------------- Вспомогательные функции -----------------------
+# Функция нужна для корректной работы всплывающего списка
 @st.cache_data(ttl=3600)
 def geocode(query: str, lang_code: str):
-    """Возвращает список совпадений с координатами по названию места."""
+    """Возвращает список совпадений с координатами по названию места"""
     if not query:
         return []
     url = "https://geocoding-api.open-meteo.com/v1/search"
@@ -153,7 +154,7 @@ def fetch_weather(lat: float, lon: float, temp_unit: str):
     return r.json()
 
 
-# Описания погодных кодов на двух языках
+# Описания погодных кодов на двух языках, взято на основе данных API
 WEATHER_DESCRIPTIONS_RU = {
     0: "Ясно",
     1: "Преимущественно ясно",
@@ -228,13 +229,14 @@ WEATHER_EMOJI = {
 
 
 def deg_to_compass(deg):
-    # оставим английские румбы — они универсальны
+    # Для компаса
     dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
     ix = int((deg / 45) + 0.5) % 8
     return dirs[ix]
 
 
 def nice_time(ts, tz_str, lang_code: str):
+    """Функция, цель которой привести время в нормальный и понятный для человека формат"""
     try:
         tz = pytz.timezone(tz_str)
         dt = datetime.fromisoformat(ts.replace("Z", "+00:00")).astimezone(tz)
@@ -246,8 +248,8 @@ def nice_time(ts, tz_str, lang_code: str):
         return ts
 
 
-# ----------------------- Основной поток -----------------------
-places = geocode(city_query, lang)
+# ----------------------- Основной код -----------------------
+places = geocode(city_query, lang) # получаем список мест от пользователя
 if not places:
     if lang == "ru":
         st.warning("Город не найден. Попробуйте другой запрос, например: «Париж, Франция».")
@@ -257,11 +259,11 @@ if not places:
 
 labels = [p["label"] for p in places]
 choice_label = "Выберите местоположение" if lang == "ru" else "Choose a location"
-choice = st.selectbox(choice_label, options=labels, index=0)
+choice = st.selectbox(choice_label, options=labels, index=0) # кладем список мест в окно выбора
 place = places[labels.index(choice)]
 
 try:
-    data = fetch_weather(place["lat"], place["lon"], temp_system)
+    data = fetch_weather(place["lat"], place["lon"], temp_system) # пробуем достать данные по погоде
 except requests.HTTPError as e:
     if lang == "ru":
         st.error(f"Ошибка API погоды: {e}")
@@ -275,12 +277,12 @@ except Exception as e:
         st.error(f"Something went wrong: {e}")
     st.stop()
 
-tz = data.get("timezone", place["tz"])
+tz = data.get("timezone", place["tz"]) 
 current = data.get("current", {})
 daily = data.get("daily", {})
 hourly = data.get("hourly", {})
 
-desc_dict = WEATHER_DESCRIPTIONS_RU if lang == "ru" else WEATHER_DESCRIPTIONS_EN
+desc_dict = WEATHER_DESCRIPTIONS_RU if lang == "ru" else WEATHER_DESCRIPTIONS_EN #словарь с описаниями погоды
 
 # ----------------------- Текущие условия -----------------------
 c_temp = current.get("temperature_2m")
