@@ -50,6 +50,12 @@
    ```
 
 
+   Для запуска через Docker можно воспользоваться
+ ```bash
+    docker run --rm -p 8501:8501 -v "$(pwd)":/app -w /app python:3.11 bash -c \
+"pip install --no-cache-dir -r requirements.txt && streamlit run app.py --server.port 8501 --server.address 0.0.0.0"
+ ```
+
 ## 🧑‍💻 Автор
 
 Молодницкая Мария
